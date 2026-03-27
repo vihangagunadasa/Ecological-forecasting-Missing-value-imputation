@@ -9,7 +9,7 @@ library(tidyverse)
 library(here)
 
 # Source unified simulation-imputation functions
-source(here("R/Manuscript - Missing Value Imputation/1. functions_Simulation_Imputation.R"))
+source(here("1. functions_Simulation_Imputation.R"))
 
 ############################################################
 ## PARAMETERS
