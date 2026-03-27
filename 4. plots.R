@@ -5,9 +5,9 @@ library(here)
 # ===============================
 # Load data
 # ===============================
-sim_seq_imp_results   <- read_csv(here("R/Manuscript - Missing Value Imputation/results/Sequential_Imputation_results.csv"))
-sim_fixed_imp_results <- read_csv(here("R/Manuscript - Missing Value Imputation/results/Fixed_imputation_TS_lengths_results.csv"))
-model_fit_final       <- readRDS(here("R/Manuscript - Missing Value Imputation/results/model_fit_final.rds"))
+sim_seq_imp_results   <- read_csv(here("results/Sequential_Imputation_results.csv"))
+sim_fixed_imp_results <- read_csv(here("results/Fixed_imputation_TS_lengths_results.csv"))
+model_fit_final       <- readRDS(here("results/model_fit_final.rds"))
 
 miss_ids <- c(8, 9, 10, 12, 19, 24, 38, 39, 43, 55, 56, 58, 65, 68, 75, 80, 82, 83, 84, 85, 89, 90)
 
