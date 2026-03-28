@@ -250,9 +250,7 @@ run_simulation_imputation <- function(
   cli::cli_h1(glue("{species}, {SiteName}"))
   
   # Load raw dataset
-  abun_df <- read.csv(
-    here("R/Manuscript - Missing Value Imputation/data/qryMammalSpVegRainYEAR.csv")
-  ) |> as_tibble()
+  abun_df <- read.csv(here("data/qryMammalSpVegRainYEAR.csv")) |> as_tibble()
   
   # For fixed mode, remove first row (assumed preprocessing step)
   if(mode == "fixed") abun_df <- abun_df[-1,]
