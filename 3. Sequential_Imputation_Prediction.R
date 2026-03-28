@@ -150,4 +150,4 @@ model_fit_final <- bind_rows(
 )
 
 saveRDS(model_fit_final,
-        here("R/Manuscript - Missing Value Imputation/results/model_fit_final.rds"))
+        here("results/model_fit_final.rds"))

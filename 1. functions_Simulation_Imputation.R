@@ -324,7 +324,7 @@ run_simulation_imputation <- function(
     
     write_csv(
       results,
-      here("R/Manuscript - Missing Value Imputation/results/fixed_imputation_sp_abundance",
+      here("results/fixed_imputation_sp_abundance",
            glue("{species}_{SiteName}_{sim_years}_{species_seed}_{rain_seed}.csv"))
     )
     
@@ -357,7 +357,7 @@ run_simulation_imputation <- function(
     
     write_csv(
       final,
-      here("R/Manuscript - Missing Value Imputation/results/sequential_imputation_sp_abundance_90",
+      here("results/sequential_imputation_sp_abundance_90",
            glue("{species}_{SiteName}_{sim_years}_{species_seed}_{rain_seed}.csv"))
     )
   }

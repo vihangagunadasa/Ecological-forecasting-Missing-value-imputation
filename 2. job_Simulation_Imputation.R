@@ -100,7 +100,7 @@ fixed_results <- results %>%
 if(length(fixed_results) > 0) {
   write_csv(
     bind_rows(fixed_results),
-    here("R/Manuscript - Missing Value Imputation/results",
+    here("results",
          "Fixed_imputation_TS_lengths_results.csv")
   )
 }
@@ -113,7 +113,7 @@ sequential_results <- results %>%
 if(length(sequential_results) > 0) {
   write_csv(
     bind_rows(sequential_results),
-    here("R/Manuscript - Missing Value Imputation/results",
+    here("results",
          "Sequential_Imputation_results.csv")
   )
 }
