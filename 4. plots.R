@@ -1,10 +1,12 @@
 # Load libraries
 library(tidyverse)
 library(here)
+library(patchwork)
 
 # ===============================
 # Load data
 # ===============================
+original_df           <- read.csv(here("data/qryMammalSpVegRainYEAR.csv"))
 sim_seq_imp_results   <- read_csv(here("results/Sequential_Imputation_results.csv"))
 sim_fixed_imp_results <- read_csv(here("results/Fixed_imputation_TS_lengths_results.csv"))
 model_fit_final       <- readRDS(here("results/model_fit_final.rds"))
@@ -14,10 +16,69 @@ miss_ids <- c(8, 9, 10, 12, 19, 24, 38, 39, 43, 55, 56, 58, 65, 68, 75, 80, 82, 
 # ===============================
 # Helper: Centralized save function
 # ===============================
-save_plot <- function(plot, filename, width_mm = 500, height_mm = 500) {
-  ggsave(filename = filename, path = here("R/Manuscript - Missing Value Imputation/plots/"),
+save_plot <- function(plot, filename, width_mm = 500, height_mm = 500) { # size may vary from published in the manuscript
+  ggsave(filename = filename, path = here("plots/"),
          plot = plot, width = width_mm, height = height_mm, units = "mm", limitsize = FALSE)
 }
+
+# ===============================
+# Figure 1: Site map
+# ===============================
+# Site map was created through ArcGIS application.
+
+
+# ===============================
+# Figure 2: Time series of Species Abundance and Rain covariate
+# ===============================
+species   <- "Notomys.alexis"
+SiteName  <- "Tobermorey East"
+covariate <- "RainBom1"
+title_cov <- "Rain"
+years <- 1990:2012
+  
+species_site_df <- original_df %>%
+  filter(SiteName == !!SiteName) %>%
+  select(Year, SiteName, species = !!sym(species), rain = !!sym(covariate))
+  
+miss_years_species <- years[!years %in% species_site_df$Year]
+
+cov_site_df <- species_site_df %>% tidyr::drop_na(rain)
+miss_years_cov <- years[!years %in% cov_site_df$Year]
+  
+plot_species <- ggplot(species_site_df, aes(x = Year, y = species)) +
+    geom_line() +
+    geom_point() +
+    geom_vline(xintercept = miss_years_species, color = "red", linetype = "longdash") +
+    labs(y = "Capture per 100 trap nights") +
+    theme_light() +
+    theme(strip.text.x = element_blank(),
+        axis.text.x = element_blank(), # Remove x-axis text for alignment
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(size = 18),  
+        axis.title.y = element_text(size = 14))
+
+plot_rain <- ggplot(cov_site_df, aes(x = Year, y = rain)) +
+    geom_line() +
+    geom_point() +
+    geom_vline(xintercept = miss_years_cov, color = "red", linetype = "longdash") +
+    labs(y = "Previous year Rainfall (mm)") +
+    theme_light() +
+    theme(strip.text.x = element_blank(),
+        axis.text.x = element_text(size = 18),
+        axis.text.y = element_text(size = 18),  
+        axis.title.x = element_text(size = 20),
+        axis.title.y = element_text(size = 14))
+
+final_plot <- (plot_species + labs(tag = "(A)")) /
+  (plot_rain + labs(tag = "(B)")) +
+  plot_layout(ncol = 1, heights = c(1, 1.2)) & 
+  theme(plot.tag = element_text(size = 14, face = "bold"))  # Adjust label size
+
+
+save_plot(final_plot, "ts_plot_species_rain.png")
+
+
 
 # ===============================
 # Figure 3: Sequential Arrangement of Missing Values
